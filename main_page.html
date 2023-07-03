@@ -1,0 +1,43 @@
+<html>
+
+<head>
+    <title>Short Link Generator</title>
+</head>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<body>
+    <form id="linkform" action="hello.php" method="post">
+        <p>Link: <input type="text" name="link" id="short_link_input" /></p>
+        <p><input type="submit" /></p>
+        <p><label id="short_link_label">Short Link:</label></p>
+    </form>
+
+    <script>
+        $(document).ready(function () {
+            $('#linkform').submit(function (event) {
+                var inputValue = $('#short_link_input').val();
+
+                event.preventDefault();
+                $.ajax({
+                    url: 'generateShortLink.php', // Укажите путь к файлу обработчика PHP
+                    method: 'POST', // Метод запроса (POST или GET)
+                    data: {
+                        functionName: 'generateShortLink',
+                        inputParam: inputValue
+                    }, // Параметры запроса
+                    success: function (response) {
+                        // Обработка успешного ответа от сервера
+                        $('#short_link_label').text("Short Link: " + response);
+                    },
+                    error: function (xhr, status, error) {
+                        // Обработка ошибок
+                        $('#short_link_label').text("Error: " + error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
